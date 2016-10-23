@@ -6,12 +6,16 @@
 
 using namespace std;
 
-
+<<<<<<< HEAD
+int partition (&Vector<String> arr, int low, int high, int p)
+=======
 void quicksort(Vector<String> &w){
     //choose pivot by median of 3
    int pivot = median(w);
 }
-int partition (&Vector<String> arr, int low, int high, int p)
+
+int partition (int arr[], int low, int high)
+>>>>>>> e2bc733a61cc4dfb61dda2961118944c87a9e738
 {
     int pivot = arr[p].size();    // pivot
     int i = (low - 1);  // Index of smaller element
