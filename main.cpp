@@ -21,6 +21,7 @@ int partition (Vector<String> &arr, int low, int high, int p)
         {
             i++;    // increment index of smaller element
             arr.swap(i, j);
+            cout<<"i: "<<arr[i]<<"j: "<<arr[j]<<endl;
         }
     }
     arr.swap(i+1, high);
@@ -33,10 +34,10 @@ int median(Vector<String> words){
     int last = words[words.size()-1].size();
     int p = 0;
 
-    if ((first<middle && last>middle) || (first>middle && last<middle)){
+    if ((first<=middle && last>=middle) || (first>=middle && last<=middle)){
         //middle is the median
         p = words.size()/2;
-    } else if ((middle<first && last>middle) || (middle>first && last<first)){
+    } else if ((middle<=first && last>=middle) || (middle>=first && last<=first)){
         //first is the median
         p = 1;
     } else {
@@ -49,6 +50,7 @@ int median(Vector<String> words){
 void quicksort(Vector<String> &w, int low, int high){
     //choose pivot by median of 3
    int pivot = median(w);
+   //cout<<"median: "<<pivot;
 
    if (low < high)
        {
@@ -119,7 +121,7 @@ int main(int argc, char* const argv[])
         readFile.getline(buffer, 100);
 
     }
-        int length_of_file = sasint(String(buffer));
+        length_of_file = sasint(String(buffer));
 
 
         //Create vector of words

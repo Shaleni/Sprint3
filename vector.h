@@ -29,6 +29,8 @@ public:
     //exchange contents of two elements in a vector
     void swap(int, int);
 
+    void clear();
+
     T& operator[](int) const;
     bool operator==(T);
     bool operator==(const Vector<T>&);
@@ -143,6 +145,13 @@ int Vector<T>::size() const{
 template<class T>
 int Vector<T>::capacity(){
     return (maxcap);
+}
+
+template<class T>
+void Vector<T>::clear(){
+    delete[] vec;
+    vec=new T[maxcap];
+    csize=0;
 }
 
 template<class T>
