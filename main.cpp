@@ -7,11 +7,7 @@
 using namespace std;
 
 
-void quicksort(Vector<String> &w){
-    //choose pivot by median of 3
-   int pivot = median(w);
-}
-int partition (&Vector<String> arr, int low, int high, int p)
+int partition (Vector<String> &arr, int low, int high, int p)
 {
     int pivot = arr[p].size();    // pivot
     int i = (low - 1);  // Index of smaller element
@@ -23,14 +19,14 @@ int partition (&Vector<String> arr, int low, int high, int p)
         if (arr[j].size() <= pivot)
         {
             i++;    // increment index of smaller element
-            swap(&arr[i], &arr[j]);
+            arr.swap(i, j);
         }
     }
-    swap(&arr[i + 1], &arr[high]);
+    arr.swap(i+1, high);
     return (i + 1);
 }
 
-int median(Vector<String> w){
+int median(Vector<String> words){
     int first = words[1].size();
     int middle = words[(words.size()/2)].size();
     int last = words[words.size()-1].size();
@@ -49,7 +45,7 @@ int median(Vector<String> w){
     return p;
 }
 
-void quicksort(&Vector<String> w, int low, int high){
+void quicksort(Vector<String> &w, int low, int high){
     //choose pivot by median of 3
    int pivot = median(w);
 
@@ -61,8 +57,8 @@ void quicksort(&Vector<String> w, int low, int high){
 
            // Separately sort elements before
            // partition and after partition
-           quicksort(arr, low, pi - 1);
-           quicksort(arr, pi + 1, high);
+           quicksort(w, low, pi - 1);
+           quicksort(w, pi + 1, high);
        }
 }
 
@@ -73,29 +69,35 @@ int sasint (String s)
     for (int i=0;i<s.size();i++){
         val *=10;
         val += (s[i]-48);
-        cout << val <<endl;
+       // cout << val <<endl;
     }
     return val;
 }
 
 int main(int argc, char* const argv[])
 {
+
+    cout << argv[0] <<endl;
     //buffer
     char* buffer = new char[100];
 
     ifstream readFile;
     readFile.open(argv[1]);
 
-    readFile.getline(entry, 100);
+    readFile.getline(buffer, 100);
+
+
     if (readFile.is_open()){
 
         //First line contains length of file
         readFile.getline(buffer, 100);
+    }
         int length_of_file = sasint(String(buffer));
 
         //Create vector of words
         Vector<String> words (length_of_file);
 
+        if(readFile.is_open()){
         //Second line contains length of solution list
         readFile.getline(buffer, 100);
         int number_of_solutions = sasint(String(buffer));
@@ -111,7 +113,7 @@ int main(int argc, char* const argv[])
     }
     else cout << "Failed to open file" << endl;
 
-    quicksort(words);
+    quicksort(words, 0, words.size()-1);
 
     return 0;
 }
