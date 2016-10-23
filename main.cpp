@@ -6,21 +6,16 @@
 
 using namespace std;
 
-void quicksort(&Vector<String> w){
-    //choose pivot by median of 3
-   int pivot = median(w);
-}
-
-int partition (int arr[], int low, int high)
+int partition (&Vector<String> arr, int low, int high, int p)
 {
-    int pivot = arr[high];    // pivot
+    int pivot = arr[p].size();    // pivot
     int i = (low - 1);  // Index of smaller element
 
     for (int j = low; j <= high- 1; j++)
     {
         // If current element is smaller than or
         // equal to pivot
-        if (arr[j] <= pivot)
+        if (arr[j].size() <= pivot)
         {
             i++;    // increment index of smaller element
             swap(&arr[i], &arr[j]);
@@ -49,7 +44,22 @@ int median(Vector<String> w){
     return p;
 }
 
+void quicksort(&Vector<String> w, int low, int high){
+    //choose pivot by median of 3
+   int pivot = median(w);
 
+   if (low < high)
+       {
+           /* pi is partitioning index, arr[p] is now
+              at right place */
+           int pi = partition(w, low, high, pivot);
+
+           // Separately sort elements before
+           // partition and after partition
+           quicksort(arr, low, pi - 1);
+           quicksort(arr, pi + 1, high);
+       }
+}
 
 
 int sasint (String s){
