@@ -8,12 +8,12 @@
 using namespace std;
 
 
-int partition (Vector<String> &arr, int low, int high, int p)
+int partition (Vector<String> &arr, int low, int high)
 {
-    int pivot = arr[p].size();    // pivot
-    int i = (low - 1);  // Index of smaller element
+    int pivot = arr[low].size();    // pivot
+    int i = (low);  // Index of smaller element
 
-    for (int j = low; j <= high- 1; j++)
+    for (int j = low; j < high- 1; j++)
     {
         // If current element is smaller than or
         // equal to pivot
@@ -21,14 +21,14 @@ int partition (Vector<String> &arr, int low, int high, int p)
         {
             i++;    // increment index of smaller element
             arr.swap(i, j);
-            cout<<"i: "<<arr[i]<<"j: "<<arr[j]<<endl;
+            cout<<"i: "<<arr[i]<<" j: "<<arr[j]<<endl;
         }
     }
     arr.swap(i+1, high);
     return (i + 1);
 }
 
-int median(Vector<String> words){
+int median(Vector<String> &words){
     int first = words[1].size();
     int middle = words[(words.size()/2)].size();
     int last = words[words.size()-1].size();
@@ -48,15 +48,16 @@ int median(Vector<String> words){
 }
 
 void quicksort(Vector<String> &w, int low, int high){
-   //choose pivot by median of 3
-   int pivot = median(w);
+
+    //choose pivot by median of 3
+   //int pivot = median(w);
    //cout<<"median: "<<pivot;
 
    if (low < high)
        {
            /* pi is partitioning index, arr[p] is now
               at right place */
-           int pi = partition(w, low, high, pivot);
+           int pi = partition(w, low, high);
 
            // Separately sort elements before
            // partition and after partition
@@ -138,7 +139,7 @@ int main(int argc, char* const argv[])
     }
     else cout << "Failed to open file" << endl;
 
-    quicksort(words, 0, words.size()-1);
+    quicksort(words, median(words), words.size()-1);
 
 
 
