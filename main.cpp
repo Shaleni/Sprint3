@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void quicksort(&Vector<String> w){
+void quicksort(Vector<String> &w){
     //choose pivot by median of 3
    int pivot = median(w);
 }
@@ -78,17 +78,25 @@ int main(int argc, char* const argv[])
         readFile.getline(buffer, 100);
         int length_of_file = sasint(String(buffer));
 
+        //Create vector of words
+        Vector<String> words (length_of_file);
+
         //Second line contains length of solution list
         readFile.getline(buffer, 100);
         int number_of_solutions = sasint(String(buffer));
 
         //Read in the words
-
+        for (int i=0; i<length_of_file;i++){
+            readFile.getline(buffer, 100);
+            String currentLine = buffer;
+            words.add(currentLine);
+        }
 
 
     }
     else cout << "Failed to open file" << endl;
 
+    quicksort(words);
 
     return 0;
 }
