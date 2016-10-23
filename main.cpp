@@ -48,7 +48,7 @@ int median(Vector<String> words){
 }
 
 void quicksort(Vector<String> &w, int low, int high){
-    //choose pivot by median of 3
+   //choose pivot by median of 3
    int pivot = median(w);
    //cout<<"median: "<<pivot;
 
@@ -65,9 +65,7 @@ void quicksort(Vector<String> &w, int low, int high){
        }
 }
 
-
-int sasint (String s)
-{
+int sasint (String s){
     int val = 0;
     for (int i=0;i<s.size();i++){
         val *=10;
@@ -104,8 +102,6 @@ void radixSort(Vector<String>& strings, int offset, int maxlen){
 
 int main(int argc, char* const argv[])
 {
-
-    cout << argv[0] <<endl;
     //buffer
     char* buffer = new char[100];
 
