@@ -3,6 +3,7 @@
 #include <cstring>
 #include "vector.h"
 #include "dsstring.h"
+#include "queue.h"
 
 using namespace std;
 
@@ -74,6 +75,31 @@ int sasint (String s)
     return val;
 }
 
+void radixSort(Vector<String>& strings, int offset, int maxlen){
+    if (offset <=maxlen){
+
+    Queue<String> buckets[128];
+
+    //Add all strings to buckets
+    for (int i=0;i<strings.size();i++){
+        buckets[(int)strings[i][-offset]].enqueue(strings[i]);
+        cout <<i<<endl;
+    }
+
+    strings.clear();
+
+    //Dequeue all queues in order
+    for (int j=0;j<128;j++){
+        while (!buckets[j].isEmpty()){
+            String s (buckets[j].dequeue());
+            strings.add(s);
+        }
+    }
+
+    radixSort(strings, ++offset, maxlen);
+    }
+}
+
 int main(int argc, char* const argv[])
 {
 
@@ -84,15 +110,17 @@ int main(int argc, char* const argv[])
     ifstream readFile;
     readFile.open(argv[1]);
 
-    readFile.getline(buffer, 100);
-
+    int number_of_solutions;
+    int length_of_file;
 
     if (readFile.is_open()){
 
         //First line contains length of file
         readFile.getline(buffer, 100);
+
     }
         int length_of_file = sasint(String(buffer));
+
 
         //Create vector of words
         Vector<String> words (length_of_file);
@@ -100,7 +128,7 @@ int main(int argc, char* const argv[])
         if(readFile.is_open()){
         //Second line contains length of solution list
         readFile.getline(buffer, 100);
-        int number_of_solutions = sasint(String(buffer));
+        number_of_solutions = sasint(String(buffer));
 
         //Read in the words
         for (int i=0; i<length_of_file;i++){
@@ -108,12 +136,25 @@ int main(int argc, char* const argv[])
             String currentLine = buffer;
             words.add(currentLine);
         }
-
-
+        readFile.close();
     }
     else cout << "Failed to open file" << endl;
 
     quicksort(words, 0, words.size()-1);
+
+
+
+
+    //Write output file
+    ofstream out;
+    out.open(argv[2]);
+    if (out.is_open()){
+        for (int i=0; i<number_of_solutions; i++){
+            out << words[i] <<endl;
+        }
+        out.close();
+    }
+    else cout << "Failed to write output file" <<endl;
 
     return 0;
 }
