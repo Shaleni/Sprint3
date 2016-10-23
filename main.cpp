@@ -7,7 +7,8 @@
 using namespace std;
 
 
-int sasint (String s){
+int sasint (String s)
+{
     int val = 0;
     for (int i=0;i<s.size();i++){
         val *=10;
