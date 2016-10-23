@@ -9,6 +9,8 @@ SOURCES += main.cpp \
 
 HEADERS += \
     quicksorter.h \
+    linkedlist.h \
+    queue.h \
     dsstring.h \
     vector.h
 
