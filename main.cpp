@@ -7,56 +7,66 @@
 
 using namespace std;
 
-
-int partition (Vector<String> &arr, int low, int high)
-{
-    int pivot = arr[low].size();    // pivot
-    int i = (low);  // Index of smaller element
-
-    for (int j = low; j < high- 1; j++)
-    {
-        // If current element is smaller than or
-        // equal to pivot
-        if (arr[j].size() <= pivot)
-        {
-            i++;    // increment index of smaller element
-            arr.swap(i, j);
-            cout<<"i: "<<arr[i]<<" j: "<<arr[j]<<endl;
-        }
-    }
-    arr.swap(i+1, high);
-    return (i + 1);
-}
-
 int median(Vector<String> &words, int low, int high){
     int first = words[low].size();
-    int middle = words[(low+high/2)].size();
+    int middle = words[((low+high)/2)].size();
     int last = words[high].size();
     int p = 0;
 
     if ((first<=middle && last>=middle) || (first>=middle && last<=middle)){
         //middle is the median
-        p = words.size()/2;
+        p = (low+high)/2;
     } else if ((middle<=first && last>=middle) || (middle>=first && last<=first)){
         //first is the median
-        p = 1;
+        p = low;
     } else {
         //last is the median
-        p = words.size()-1;
+        p = high;
     }
     return p;
 }
 
-void quicksort(Vector<String> &w, int low, int high){
+int partition (Vector<String> &arr, int low, int high)
+{
+    int pIndex = median(arr, low, high);
+    int pivot = arr[pIndex].size();    // pivot value
+    int i = low;  // Index of smaller element
 
-    //choose pivot by median of 3
-    int pivot = median(w, low, high);
-    //cout<<"median: "<<pivot;
+    //check that pIndex isn't high
+    if (pIndex==high){
+        //high-=1;
+    } else {
+        arr.swap(pIndex, high);
+        //pIndex=high;
+        // high=pIndex-1;
+    }
+
+    int j = high-1;
+
+    while (j != i){
+        while (arr[i].size()<=pivot && i!=j){
+            i++;
+        }
+        while (arr[j].size()>=pivot && j!=i){
+            j--;
+        }
+
+        arr.swap(i, j);
+
+    }
+
+    //put the pivot in the right place
+    if (arr[high].size()<=arr[i].size()){
+        arr.swap(i, high);
+    }
+    return (i);
+}
+
+void quicksort(Vector<String> &w, int low, int high){
 
     if (low < high)
     {
-        /* pi is partitioning index, arr[p] is now
-              at right place */
+        // pi is partitioning index
         int pi = partition(w, low, high);
 
         // Separately sort elements before
