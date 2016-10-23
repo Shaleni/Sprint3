@@ -3,19 +3,12 @@
 #include <cstring>
 #include "vector.h"
 #include "dsstring.h"
+#include "queue.h"
 
 using namespace std;
 
-<<<<<<< HEAD
-int partition (&Vector<String> arr, int low, int high, int p)
-=======
-void quicksort(Vector<String> &w){
-    //choose pivot by median of 3
-   int pivot = median(w);
-}
 
-int partition (int arr[], int low, int high)
->>>>>>> e2bc733a61cc4dfb61dda2961118944c87a9e738
+int partition (Vector<String> &arr, int low, int high, int p)
 {
     int pivot = arr[p].size();    // pivot
     int i = (low - 1);  // Index of smaller element
@@ -27,14 +20,14 @@ int partition (int arr[], int low, int high)
         if (arr[j].size() <= pivot)
         {
             i++;    // increment index of smaller element
-            swap(&arr[i], &arr[j]);
+            arr.swap(i, j);
         }
     }
-    swap(&arr[i + 1], &arr[high]);
+    arr.swap(i+1, high);
     return (i + 1);
 }
 
-int median(Vector<String> w){
+int median(Vector<String> words){
     int first = words[1].size();
     int middle = words[(words.size()/2)].size();
     int last = words[words.size()-1].size();
@@ -53,7 +46,7 @@ int median(Vector<String> w){
     return p;
 }
 
-void quicksort(&Vector<String> w, int low, int high){
+void quicksort(Vector<String> &w, int low, int high){
     //choose pivot by median of 3
    int pivot = median(w);
 
@@ -65,8 +58,8 @@ void quicksort(&Vector<String> w, int low, int high){
 
            // Separately sort elements before
            // partition and after partition
-           quicksort(arr, low, pi - 1);
-           quicksort(arr, pi + 1, high);
+           quicksort(w, low, pi - 1);
+           quicksort(w, pi + 1, high);
        }
 }
 
@@ -77,32 +70,74 @@ int sasint (String s)
     for (int i=0;i<s.size();i++){
         val *=10;
         val += (s[i]-48);
-        cout << val <<endl;
+       // cout << val <<endl;
     }
     return val;
 }
 
+void radixSort(Vector<String>& strings, int offset, int maxlen){
+    if (offset <=maxlen){
+
+    Queue<String> buckets[128];
+
+    //Add all strings to buckets
+    for (int i=0;i<strings.size();i++){
+        buckets[(int)strings[i][-offset]].enqueue(strings[i]);
+        cout <<i<<endl;
+    }
+
+    strings.clear();
+
+    //Dequeue all queues in order
+    for (int j=0;j<128;j++){
+        while (!buckets[j].isEmpty()){
+            String s (buckets[j].dequeue());
+            strings.add(s);
+        }
+    }
+
+    radixSort(strings, ++offset, maxlen);
+    }
+}
+
 int main(int argc, char* const argv[])
 {
+
+    cout << argv[0] <<endl;
     //buffer
     char* buffer = new char[100];
 
     ifstream readFile;
     readFile.open(argv[1]);
 
+<<<<<<< HEAD
+    readFile.getline(buffer, 100);
+
+=======
     readFile.getline(entry, 100);
+
+    int number_of_solutions;
+    int length_of_file;
+>>>>>>> ffdf223c39a542b5c87cb4ee924a9242b09f800c
+
     if (readFile.is_open()){
 
         //First line contains length of file
         readFile.getline(buffer, 100);
+<<<<<<< HEAD
+    }
         int length_of_file = sasint(String(buffer));
+=======
+        length_of_file = sasint(String(buffer));
+>>>>>>> ffdf223c39a542b5c87cb4ee924a9242b09f800c
 
         //Create vector of words
         Vector<String> words (length_of_file);
 
+        if(readFile.is_open()){
         //Second line contains length of solution list
         readFile.getline(buffer, 100);
-        int number_of_solutions = sasint(String(buffer));
+        number_of_solutions = sasint(String(buffer));
 
         //Read in the words
         for (int i=0; i<length_of_file;i++){
@@ -110,12 +145,30 @@ int main(int argc, char* const argv[])
             String currentLine = buffer;
             words.add(currentLine);
         }
-
-
+        readFile.close();
     }
     else cout << "Failed to open file" << endl;
 
+<<<<<<< HEAD
+    quicksort(words, 0, words.size()-1);
+=======
+
+    //Sort the file
     quicksort(words);
+>>>>>>> ffdf223c39a542b5c87cb4ee924a9242b09f800c
+
+
+
+    //Write output file
+    ofstream out;
+    out.open(argv[2]);
+    if (out.is_open()){
+        for (int i=0; i<number_of_solutions; i++){
+            out << words[i] <<endl;
+        }
+        out.close();
+    }
+    else cout << "Failed to write output file" <<endl;
 
     return 0;
 }
