@@ -6,6 +6,51 @@
 
 using namespace std;
 
+void quicksort(&Vector<String> w){
+    //choose pivot by median of 3
+   int pivot = median(w);
+}
+
+int partition (int arr[], int low, int high)
+{
+    int pivot = arr[high];    // pivot
+    int i = (low - 1);  // Index of smaller element
+
+    for (int j = low; j <= high- 1; j++)
+    {
+        // If current element is smaller than or
+        // equal to pivot
+        if (arr[j] <= pivot)
+        {
+            i++;    // increment index of smaller element
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+int median(Vector<String> w){
+    int first = words[1].size();
+    int middle = words[(words.size()/2)].size();
+    int last = words[words.size()-1].size();
+    int p = 0;
+
+    if ((first<middle && last>middle) || (first>middle && last<middle)){
+        //middle is the median
+        p = words.size()/2;
+    } else if ((middle<first && last>middle) || (middle>first && last<first)){
+        //first is the median
+        p = 1;
+    } else {
+        //last is the median
+        p = words.size()-1;
+    }
+    return p;
+}
+
+
+
 
 int sasint (String s)
 {
@@ -25,6 +70,8 @@ int main(int argc, char* const argv[])
 
     ifstream readFile;
     readFile.open(argv[1]);
+
+    readFile.getline(entry, 100);
     if (readFile.is_open()){
 
         //First line contains length of file
@@ -41,6 +88,7 @@ int main(int argc, char* const argv[])
 
     }
     else cout << "Failed to open file" << endl;
+
 
     return 0;
 }
