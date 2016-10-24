@@ -131,13 +131,14 @@ int main(int argc, char* const argv[])
 
         //Read in the words
         for (int i=0; i<length_of_file;i++){
-            readFile.getline(buffer, 100);
+            readFile >> buffer;
             String currentLine = buffer;
             words.add(currentLine);
         }
         readFile.close();
     }
     else cout << "Failed to open file" << endl;
+    delete[] buffer;
 
     quicksort(words, 0, words.size()-1);
 
