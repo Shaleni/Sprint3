@@ -50,20 +50,20 @@ int median(Vector<String> &words, int low, int high){
 void quicksort(Vector<String> &w, int low, int high){
 
     //choose pivot by median of 3
-   int pivot = median(w, low, high);
-   //cout<<"median: "<<pivot;
+    int pivot = median(w, low, high);
+    //cout<<"median: "<<pivot;
 
-   if (low < high)
-       {
-           /* pi is partitioning index, arr[p] is now
+    if (low < high)
+    {
+        /* pi is partitioning index, arr[p] is now
               at right place */
-           int pi = partition(w, low, high);
+        int pi = partition(w, low, high);
 
-           // Separately sort elements before
-           // partition and after partition
-           quicksort(w, low, pi - 1);
-           quicksort(w, pi + 1, high);
-       }
+        // Separately sort elements before
+        // partition and after partition
+        quicksort(w, low, pi - 1);
+        quicksort(w, pi + 1, high);
+    }
 }
 
 int sasint (String s){
@@ -71,7 +71,7 @@ int sasint (String s){
     for (int i=0;i<s.size();i++){
         val *=10;
         val += (s[i]-48);
-       // cout << val <<endl;
+        // cout << val <<endl;
     }
     return val;
 }
@@ -79,25 +79,25 @@ int sasint (String s){
 void radixSort(Vector<String>& strings, int offset, int maxlen){
     if (offset <=maxlen){
 
-    Queue<String> buckets[128];
+        Queue<String> buckets[128];
 
-    //Add all strings to buckets
-    for (int i=0;i<strings.size();i++){
-        buckets[(int)strings[i][-offset]].enqueue(strings[i]);
-        cout <<i<<endl;
-    }
-
-    strings.clear();
-
-    //Dequeue all queues in order
-    for (int j=0;j<128;j++){
-        while (!buckets[j].isEmpty()){
-            String s (buckets[j].dequeue());
-            strings.add(s);
+        //Add all strings to buckets
+        for (int i=0;i<strings.size();i++){
+            buckets[(int)strings[i][-offset]].enqueue(strings[i]);
+            //cout <<i<<endl;
         }
-    }
 
-    radixSort(strings, ++offset, maxlen);
+        strings.clear();
+
+        //Dequeue all queues in order
+        for (int j=0;j<128;j++){
+            while (!buckets[j].isEmpty()){
+                String s (buckets[j].dequeue());
+                strings.add(s);
+            }
+        }
+
+        radixSort(strings, ++offset, maxlen);
     }
 }
 
@@ -111,6 +111,7 @@ int main(int argc, char* const argv[])
 
     int number_of_solutions;
     int length_of_file;
+    int max_word_length =0;
 
     if (readFile.is_open()){
 
@@ -118,13 +119,12 @@ int main(int argc, char* const argv[])
         readFile.getline(buffer, 100);
 
     }
-        length_of_file = sasint(String(buffer));
+    length_of_file = sasint(String(buffer));
 
+    //Create vector of words
+    Vector<String> words (length_of_file);
 
-        //Create vector of words
-        Vector<String> words (length_of_file);
-
-        if(readFile.is_open()){
+    if(readFile.is_open()){
         //Second line contains length of solution list
         readFile.getline(buffer, 100);
         number_of_solutions = sasint(String(buffer));
@@ -134,6 +134,9 @@ int main(int argc, char* const argv[])
             readFile >> buffer;
             String currentLine = buffer;
             words.add(currentLine);
+
+            //Update max length
+            if (currentLine.size()>max_word_length) max_word_length=currentLine.size();
         }
         readFile.close();
     }
@@ -141,7 +144,7 @@ int main(int argc, char* const argv[])
     delete[] buffer;
 
     quicksort(words, 0, words.size()-1);
-
+    //radixSort(words,0,max_word_length);
 
 
 
